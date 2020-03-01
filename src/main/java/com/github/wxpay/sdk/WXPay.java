@@ -85,8 +85,8 @@ public class WXPay {
      * @throws Exception
      */
     public Map<String, String> fillRequestData(Map<String, String> reqData) throws Exception {
-        reqData.put("appid", this.config.getAppID());
-        reqData.put("mch_id", this.config.getMchID());
+        reqData.put("appid", this.config.getAppId());
+        reqData.put("mch_id", this.config.getMerchantId());
         reqData.put("nonce_str", WXPayUtil.generateNonceStr());
         if (SignType.MD5.equals(this.signType)) {
             reqData.put("sign_type", WXPayConstants.MD5);
@@ -94,7 +94,7 @@ public class WXPay {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
         reqData.put("sign",
-                WXPayUtil.generateSignature(reqData, this.config.getKey(), this.signType));
+                WXPayUtil.generateSignature(reqData, this.config.getApiKey(), this.signType));
         return reqData;
     }
 
@@ -107,7 +107,7 @@ public class WXPay {
      */
     public boolean isResponseSignatureValid(Map<String, String> reqData) throws Exception {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
-        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), this.signType);
+        return WXPayUtil.isSignatureValid(reqData, this.config.getApiKey(), this.signType);
     }
 
     /**
@@ -134,7 +134,7 @@ public class WXPay {
                 throw new Exception(String.format("Unsupported sign_type: %s", signTypeInData));
             }
         }
-        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), signType);
+        return WXPayUtil.isSignatureValid(reqData, this.config.getApiKey(), signType);
     }
 
     /**

@@ -2,42 +2,49 @@ package com.github.wxpay.sdk;
 
 import java.io.InputStream;
 
-public abstract class WXPayConfig {
+public interface WXPayConfig {
 
     /**
      * 获取 App ID
      *
      * @return App ID
      */
-    public abstract String getAppId();
+    String getAppId();
 
     /**
      * 获取商户号
      *
      * @return 商户号
      */
-    public abstract String getMerchantId();
+    String getMerchantId();
 
     /**
      * 获取 API 密钥
      *
      * @return API密钥
      */
-    public abstract String getApiKey();
+    String getApiKey();
 
     /**
      * 获取商户证书（*.p12）内容
      *
      * @return 商户证书内容
      */
-    public abstract InputStream getCertStream();
+    InputStream getCertStream();
+
+    /**
+     * 获取WXPayDomain, 用于多域名容灾自动切换
+     *
+     * @return
+     */
+    IWXPayDomain getWXPayDomain();
 
     /**
      * HTTP(S) 连接超时时间，单位毫秒
      *
      * @return
      */
-    public int getHttpConnectTimeoutMs() {
+    default int getHttpConnectTimeoutMs() {
         return 6 * 1000;
     }
 
@@ -46,23 +53,16 @@ public abstract class WXPayConfig {
      *
      * @return
      */
-    public int getHttpReadTimeoutMs() {
+    default int getHttpReadTimeoutMs() {
         return 8 * 1000;
     }
-
-    /**
-     * 获取WXPayDomain, 用于多域名容灾自动切换
-     *
-     * @return
-     */
-    public abstract IWXPayDomain getWXPayDomain();
 
     /**
      * 是否自动上报。 若要关闭自动上报，子类中实现该函数返回 false 即可。
      *
      * @return
      */
-    public boolean shouldAutoReport() {
+    default boolean shouldAutoReport() {
         return true;
     }
 
@@ -71,7 +71,7 @@ public abstract class WXPayConfig {
      *
      * @return
      */
-    public int getReportWorkerNum() {
+    default int getReportWorkerNum() {
         return 6;
     }
 
@@ -80,7 +80,7 @@ public abstract class WXPayConfig {
      *
      * @return
      */
-    public int getReportQueueMaxSize() {
+    default int getReportQueueMaxSize() {
         return 10000;
     }
 
@@ -89,7 +89,7 @@ public abstract class WXPayConfig {
      *
      * @return
      */
-    public int getReportBatchSize() {
+    default int getReportBatchSize() {
         return 10;
     }
 

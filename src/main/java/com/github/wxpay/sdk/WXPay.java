@@ -1,9 +1,9 @@
 package com.github.wxpay.sdk;
 
+import com.github.wxpay.sdk.WXPayConstants.SignType;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.github.wxpay.sdk.WXPayConstants.SignType;
 
 public class WXPay {
 
@@ -48,6 +48,22 @@ public class WXPay {
             this.signType = SignType.HMACSHA256;
         }
         this.wxPayRequest = new WXPayRequest(config);
+    }
+
+    public WXPayConfig getConfig() {
+        return this.config;
+    }
+
+    public boolean isUseSandbox() {
+        return this.useSandbox;
+    }
+
+    public SignType getSignType() {
+        return this.signType;
+    }
+
+    public String getSignTypeValue() {
+        return this.signType == SignType.HMACSHA256 ? WXPayConstants.HMACSHA256 : WXPayConstants.MD5;
     }
 
 //    private void checkWXPayConfig() throws Exception {
@@ -139,7 +155,7 @@ public class WXPay {
 
     /**
      * 不需要证书的请求
-     * 
+     *
      * @param urlSuffix        String
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 超时时间，单位是毫秒
@@ -159,7 +175,7 @@ public class WXPay {
 
     /**
      * 需要证书的请求
-     * 
+     *
      * @param urlSuffix        String
      * @param reqData          向wxpay post的请求数据 Map
      * @param connectTimeoutMs 超时时间，单位是毫秒
@@ -179,7 +195,7 @@ public class WXPay {
 
     /**
      * 处理 HTTPS API返回数据，转换成Map对象。return_code为SUCCESS时，验证签名。
-     * 
+     *
      * @param xmlStr API返回的XML格式数据
      * @return Map类型数据
      * @throws Exception
@@ -211,7 +227,7 @@ public class WXPay {
     /**
      * 作用：提交刷卡支付<br>
      * 场景：刷卡支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -224,7 +240,7 @@ public class WXPay {
     /**
      * 作用：提交刷卡支付<br>
      * 场景：刷卡支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -246,7 +262,7 @@ public class WXPay {
 
     /**
      * 提交刷卡支付，针对软POS，尽可能做成功 内置重试机制，最多60s
-     * 
+     *
      * @param reqData
      * @return
      * @throws Exception
@@ -257,7 +273,7 @@ public class WXPay {
 
     /**
      * 提交刷卡支付，针对软POS，尽可能做成功 内置重试机制，最多60s
-     * 
+     *
      * @param reqData
      * @param connectTimeoutMs
      * @return
@@ -288,7 +304,7 @@ public class WXPay {
                                     || errCode.equals("USERPAYING")) {
                                 remainingTimeMs = remainingTimeMs
                                         - (int) (WXPayUtil.getCurrentTimestampMs()
-                                                - startTimestampMs);
+                                        - startTimestampMs);
                                 if (remainingTimeMs <= 100) {
                                     break;
                                 } else {
@@ -327,7 +343,7 @@ public class WXPay {
     /**
      * 作用：统一下单<br>
      * 场景：公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -340,7 +356,7 @@ public class WXPay {
     /**
      * 作用：统一下单<br>
      * 场景：公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -366,7 +382,7 @@ public class WXPay {
     /**
      * 作用：查询订单<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -379,7 +395,7 @@ public class WXPay {
     /**
      * 作用：查询订单<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据 int
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -402,7 +418,7 @@ public class WXPay {
     /**
      * 作用：撤销订单<br>
      * 场景：刷卡支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -416,7 +432,7 @@ public class WXPay {
      * 作用：撤销订单<br>
      * 场景：刷卡支付<br>
      * 其他：需要证书
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -439,7 +455,7 @@ public class WXPay {
     /**
      * 作用：关闭订单<br>
      * 场景：公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -452,7 +468,7 @@ public class WXPay {
     /**
      * 作用：关闭订单<br>
      * 场景：公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -475,7 +491,7 @@ public class WXPay {
     /**
      * 作用：申请退款<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -489,7 +505,7 @@ public class WXPay {
      * 作用：申请退款<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付<br>
      * 其他：需要证书
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -512,7 +528,7 @@ public class WXPay {
     /**
      * 作用：退款查询<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -525,7 +541,7 @@ public class WXPay {
     /**
      * 作用：退款查询<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -548,7 +564,7 @@ public class WXPay {
     /**
      * 作用：对账单下载（成功时返回对账单数据，失败时返回XML格式数据）<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -562,7 +578,7 @@ public class WXPay {
      * 作用：对账单下载<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付<br>
      * 其他：无论是否成功都返回Map。若成功，返回的Map中含有return_code、return_msg、data， 其中return_code为`SUCCESS`，data为对账单数据。
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -596,7 +612,7 @@ public class WXPay {
     /**
      * 作用：交易保障<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -609,7 +625,7 @@ public class WXPay {
     /**
      * 作用：交易保障<br>
      * 场景：刷卡支付、公共号支付、扫码支付、APP支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
@@ -632,7 +648,7 @@ public class WXPay {
     /**
      * 作用：转换短链接<br>
      * 场景：刷卡支付、扫码支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -645,7 +661,7 @@ public class WXPay {
     /**
      * 作用：转换短链接<br>
      * 场景：刷卡支付、扫码支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -666,7 +682,7 @@ public class WXPay {
     /**
      * 作用：授权码查询OPENID接口<br>
      * 场景：刷卡支付
-     * 
+     *
      * @param reqData 向wxpay post的请求数据
      * @return API返回数据
      * @throws Exception
@@ -679,7 +695,7 @@ public class WXPay {
     /**
      * 作用：授权码查询OPENID接口<br>
      * 场景：刷卡支付
-     * 
+     *
      * @param reqData          向wxpay post的请求数据
      * @param connectTimeoutMs 连接超时时间，单位是毫秒
      * @param readTimeoutMs    读超时时间，单位是毫秒
